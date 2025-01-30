@@ -7,17 +7,18 @@ class NotsViewBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Form(
-    
-    
-      child: ListView(
-        children:[
-          CustomTextFormFild(hintText: 'UserName'),
-        
-          CustomTextFormFild(hintText: 'email'),
-          CustomTextFormFild(hintText: 'Password'),
-          
-        ]
-      ),
+      child: ListView(padding: EdgeInsets.all(12), children: [
+        Column(
+          spacing: 50,
+          children: [
+            CustomTextFormFild(hintText: 'UserName'),
+            CustomTextFormFild(hintText: 'email'),
+            CustomTextFormFild(hintText: 'Password'),
+            SizedBox(height: 20,),
+            MaterialButton(onPressed: (){},child: Text(''),)
+          ],
+        )
+      ]),
     );
   }
 }
