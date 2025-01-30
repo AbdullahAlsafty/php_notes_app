@@ -13,6 +13,9 @@ class CustomTextFormFild extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onSaved: (value) {
+        print('==================================== $value');
+      },
       key: texKey,
       controller: textEditingController,
       validator: (value) {
@@ -20,8 +23,8 @@ class CustomTextFormFild extends StatelessWidget {
           return ' الحقل لا يجب ان يكون فارغا  ';
         } else if (value!.length < 2) {
           return ' الحقل يجب ان يكون اكثر من حرفين  ';
-        } else if (value.length > 15) {
-          return ' الحقل يجب ان يكون اقل من 15 حرف  ';
+        } else if (value.length > 50) {
+          return ' الحقل يجب ان يكون اقل من 50 حرف  ';
         }
 
         return null;

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:php_notes_app/cor/api_server.dart';
 import 'package:php_notes_app/cor/componants/custom_material_button.dart';
 import 'package:php_notes_app/cor/componants/custom_text_form_fild.dart';
 import 'package:php_notes_app/cor/constants/kassets.dart';
 import 'package:php_notes_app/cor/constants/kroutes.dart';
+import 'package:php_notes_app/cor/constants/kstyles.dart';
 
 class SignUpViewBody extends StatefulWidget {
   const SignUpViewBody({super.key});
@@ -42,11 +44,28 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
             ),
             CustomMaterilButton(
               'Sign Up',
-              onPressed: () {
+              onPressed: () async {
                 if (_globalKey.currentState!.validate()) {
-                  Navigator.of(context).pushReplacementNamed(kSignin);
+                  var vv = _globalKey.currentState!.save();
+
+                  await ApiServer().postRequest(
+                      'http://192.168.0.103/authontication/auth/signUp.php/', {
+                    'email': _emaiController.text,
+                    'userName': _usernameController.text,
+                    'password': _passwordController.text
+                  });
                 }
               },
+            ),
+            InkWell(
+              onTap: () {
+                //Navigator.of(context).pushReplacementNamed(kSignin);
+              },
+              child: Text(
+                'Sign in >>',
+                style: Kstyles.kTextStyle(
+                    22, const Color.fromARGB(255, 136, 182, 220)),
+              ),
             )
           ],
         )
