@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:php_notes_app/cor/constants/routes.dart';
+import 'package:php_notes_app/cor/constants/kroutes.dart';
 
-void main (){
+void main() {
   runApp(MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -13,9 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: kRoutes,
-      
-      
-      initialRoute:kNotsView,
+      initialRoute: kSignin,
     );
   }
 }
