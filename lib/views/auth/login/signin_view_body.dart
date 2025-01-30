@@ -13,6 +13,8 @@ class SigninViewBody extends StatefulWidget {
 
 class _SigninViewBodyState extends State<SigninViewBody> {
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  final TextEditingController _emaiController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +28,14 @@ class _SigninViewBodyState extends State<SigninViewBody> {
               Kassets.kLogo,
               fit: BoxFit.fill,
             ),
-            CustomTextFormFild(hintText: 'email'),
-            CustomTextFormFild(hintText: 'Password'),
+            CustomTextFormFild(
+              hintText: 'email',
+              textEditingController: _emaiController,
+            ),
+            CustomTextFormFild(
+              hintText: 'Password',
+              textEditingController: _passwordController,
+            ),
             CustomMaterilButton(
               'Sign in',
               onPressed: () {

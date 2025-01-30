@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 
 class CustomTextFormFild extends StatelessWidget {
-  const CustomTextFormFild({super.key, required this.hintText});
+  const CustomTextFormFild(
+      {super.key,
+      required this.hintText,
+      required this.textEditingController,
+      this.texKey});
   final String hintText;
+  final TextEditingController textEditingController;
+  final Key? texKey;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      key: texKey,
+      controller: textEditingController,
       validator: (value) {
         if (value?.isEmpty ?? true) {
           return ' الحقل لا يجب ان يكون فارغا  ';
@@ -15,6 +23,7 @@ class CustomTextFormFild extends StatelessWidget {
         } else if (value.length > 15) {
           return ' الحقل يجب ان يكون اقل من 15 حرف  ';
         }
+
         return null;
       },
       decoration: InputDecoration(
