@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:php_notes_app/cor/constants/kBox_hive.dart';
 import 'package:php_notes_app/cor/constants/kroutes.dart';
 
-void main() {
+void main() async {
+  await initHive();
   runApp(MyApp());
 }
 
@@ -12,7 +15,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: kRoutes,
-      initialRoute: kSignin,
+      initialRoute: kSigninView,
     );
+  }
+}
+
+Future<void> initHive() async {
+  await Hive.initFlutter();
+  if (!Hive.isBoxOpen(kBoxName)) {
+    await Hive.openBox(kBoxName);
   }
 }

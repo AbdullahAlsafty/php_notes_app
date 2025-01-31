@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:php_notes_app/cor/api_server.dart';
 import 'package:php_notes_app/cor/componants/custom_material_button.dart';
+import 'package:php_notes_app/cor/componants/custom_snack_bar.dart';
 import 'package:php_notes_app/cor/componants/custom_text_form_fild.dart';
+import 'package:php_notes_app/cor/constants/kapi_services.dart';
 import 'package:php_notes_app/cor/constants/kassets.dart';
 import 'package:php_notes_app/cor/constants/kroutes.dart';
 import 'package:php_notes_app/cor/constants/kstyles.dart';
@@ -40,8 +43,11 @@ class _SigninViewBodyState extends State<SigninViewBody> {
             ),
             CustomMaterilButton(
               'Sign in',
-              onPressed: () {
-                if (_globalKey.currentState!.validate()) {}
+              onPressed: ()async {
+                if (_globalKey.currentState!.validate()) {
+
+                  await signin();
+                }
 
                 // Navigator.pushReplacementNamed(context, kNotesview);
               },
@@ -56,7 +62,7 @@ class _SigninViewBodyState extends State<SigninViewBody> {
                 //     },
                 //   ),
                 // );
-                Navigator.pushNamed(context, kSignup);
+                Navigator.pushNamed(context, kSignupView);
               },
               child: Text(
                 'Sign up >>',
@@ -70,5 +76,17 @@ class _SigninViewBodyState extends State<SigninViewBody> {
     );
   }
 
-  String get successSnackBar => 'data';
+  Future<void> signin () async {
+    Map<String, dynamic> response = await ApiServer().postRequest(kSignin_urlPost, {
+      'email': _emaiController.text,
+      'password': _passwordController.text,
+    });
+    if (response['Status'] == 'Success') {
+            CustomSnackBar.successSnackBar(context, 'statusvv =  ${response['Status']} >> and countvv = ${response['Row Coun']}');
+
+      Navigator.pushNamedAndRemoveUntil( context, kNotesview, (context) => true);
+    }else{
+      CustomSnackBar.faillureSnackBar(context, 'statusvv =  ${response['Status']} >> and countvv = ${response['Row Coun']}');
+    }
+  }
 }

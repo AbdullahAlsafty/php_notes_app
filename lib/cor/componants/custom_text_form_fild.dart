@@ -13,9 +13,6 @@ class CustomTextFormFild extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      onSaved: (value) {
-        print('==================================== $value');
-      },
       key: texKey,
       controller: textEditingController,
       validator: (value) {

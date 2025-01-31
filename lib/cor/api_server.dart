@@ -2,34 +2,46 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-class ApiServer {
-  Future<void> getRequest(String url) async {
+ class ApiServer {
+  getRequest(String url) async {
     try {
-      http.Response response = await http.get(Uri.parse(url));
-      String dataJson = response.body;
-      Map<String, dynamic> dartData = jsonDecode(dataJson);
+      Uri uri = Uri.parse(url);
+      http.Response response = await http.get(uri);
+
       if (response.statusCode == 200) {
-        print(dartData['Status']);
+        String dataJson = response.body;
+        Map<String, dynamic> dartData = jsonDecode(dataJson);
+        return dartData;
       } else {
-        print(dartData['Status']);
+        print('Error  >>  ${response.statusCode} ');
       }
     } catch (e) {
       print('Error catch >>  $e ');
     }
   }
 
-  Future<void> postRequest(String url, Map<String, dynamic> bodymab) async {
+  Future<Map<String,dynamic> > postRequest(String url, Map<String, dynamic> bodymab) async {
     try {
-      http.Response response = await http.post(Uri.parse(url), body: bodymab);
-      String dataJson = response.body;
-      Map<String, dynamic> dartData = jsonDecode(dataJson);
+      print ('befor response ');
+            Uri uri = Uri.parse(url);
+
+      http.Response response = await http.post(uri, body: bodymab);
+      print ('after response ');
+      print (response.body);
+
       if (response.statusCode == 200) {
-        print(dartData['Status']);
+        print ('status is 200');
+        String dataJson = response.body;
+        Map<String, dynamic> dartData = jsonDecode(dataJson);
+        return dartData;
       } else {
-        print(dartData['Status']);
+        print('Error catch >>  ${response.statusCode} ');
+        return {};
       }
     } catch (e) {
-      print('Error catch >>  $e ');
+  
+      print('Error catchzz >>  $e ');
+      return {};
     }
   }
 }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:php_notes_app/cor/api_server.dart';
 import 'package:php_notes_app/cor/componants/custom_material_button.dart';
 import 'package:php_notes_app/cor/componants/custom_text_form_fild.dart';
+import 'package:php_notes_app/cor/constants/kBox_hive.dart';
+import 'package:php_notes_app/cor/constants/kapi_services.dart';
 import 'package:php_notes_app/cor/constants/kassets.dart';
 import 'package:php_notes_app/cor/constants/kroutes.dart';
 import 'package:php_notes_app/cor/constants/kstyles.dart';
@@ -46,14 +49,8 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
               'Sign Up',
               onPressed: () async {
                 if (_globalKey.currentState!.validate()) {
-                  var vv = _globalKey.currentState!.save();
-
-                  await ApiServer().postRequest(
-                      'http://192.168.0.103/authontication/auth/signUp.php/', {
-                    'email': _emaiController.text,
-                    'userName': _usernameController.text,
-                    'password': _passwordController.text
-                  });
+                  await signUp();
+                  // Box boxname = Hive.box(kBoxName);
                 }
               },
             ),
@@ -71,5 +68,18 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
         )
       ]),
     );
+  }
+
+  Future<void> signUp() async {
+    Map<String, dynamic> response = await ApiServer()
+        .postRequest('http://127.0.0.1/authontication/auth/signUp.php', {
+      'email': _emaiController.text,
+      'userName': _usernameController.text,
+      'password': _passwordController.text,
+    });
+    if (response['Status'] == 'Success') {
+     
+      Navigator.pushNamedAndRemoveUntil(context, kNotesview, (context) => true);
+    }
   }
 }
