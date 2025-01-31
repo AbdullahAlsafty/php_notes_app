@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:php_notes_app/cor/componants/signUp_button.dart';
 import 'package:php_notes_app/cor/constants/kstyles.dart';
 import 'package:php_notes_app/views/auth/login/signin_view_body.dart';
 
@@ -9,6 +10,9 @@ class SigninView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          actions: [
+            GetSignUpButton()
+          ],
           title: Text(
             'Sign In',
             style: Kstyles.kTextStyle(18),

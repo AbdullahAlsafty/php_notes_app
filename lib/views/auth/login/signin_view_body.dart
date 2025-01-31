@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:php_notes_app/cor/api_server.dart';
 import 'package:php_notes_app/cor/componants/custom_material_button.dart';
 import 'package:php_notes_app/cor/componants/custom_snack_bar.dart';
 import 'package:php_notes_app/cor/componants/custom_text_form_fild.dart';
+import 'package:php_notes_app/cor/constants/kBox_hive.dart';
 import 'package:php_notes_app/cor/constants/kapi_services.dart';
 import 'package:php_notes_app/cor/constants/kassets.dart';
+import 'package:php_notes_app/cor/constants/kresponse.dart';
 import 'package:php_notes_app/cor/constants/kroutes.dart';
 import 'package:php_notes_app/cor/constants/kstyles.dart';
 import 'package:php_notes_app/views/notes/notes_view.dart';
@@ -49,27 +52,10 @@ class _SigninViewBodyState extends State<SigninViewBody> {
                   await signin();
                 }
 
-                // Navigator.pushReplacementNamed(context, kNotesview);
+               
               },
             ),
-            InkWell(
-              onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) {
-                //       return NotesView();
-                //     },
-                //   ),
-                // );
-                Navigator.pushNamed(context, kSignupView);
-              },
-              child: Text(
-                'Sign up >>',
-                style: Kstyles.kTextStyle(
-                    22, const Color.fromARGB(255, 136, 182, 220)),
-              ),
-            )
+       
           ],
         )
       ]),
@@ -77,16 +63,22 @@ class _SigninViewBodyState extends State<SigninViewBody> {
   }
 
   Future<void> signin () async {
-    Map<String, dynamic> response = await ApiServer().postRequest(kSignin_urlPost, {
+    Map<String, dynamic> response = await ApiServer().postRequest(kurlSignin_PostRequest, {
       'email': _emaiController.text,
       'password': _passwordController.text,
     });
     if (response['Status'] == 'Success') {
+        print(' Hive values befor singn in >>>>>  ${Hive.box(kBoxName).values}');
             CustomSnackBar.successSnackBar(context, 'statusvv =  ${response['Status']} >> and countvv = ${response['Row Coun']}');
-
-      Navigator.pushNamedAndRemoveUntil( context, kNotesview, (context) => true);
+await  Hive.box(kBoxName).clear();
+    Map<String ,dynamic> hivedata = {'all user data':response[Kresponse.kuserData]};
+     await Hive.box(kBoxName).putAll(hivedata);
+           print(' Hive values after singn in >>>>>  ${Hive.box(kBoxName).values}');
+      Navigator.pushNamed( context, kNotesview,);
     }else{
-      CustomSnackBar.faillureSnackBar(context, 'statusvv =  ${response['Status']} >> and countvv = ${response['Row Coun']}');
+      CustomSnackBar.faillureSnackBar(context, 'statusvv =  ${response[Kresponse.kstatus]} >> and countvv = ${response['Row Coun']}');
     }
   }
 }
+
+
