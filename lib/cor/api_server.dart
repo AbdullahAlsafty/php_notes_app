@@ -13,10 +13,10 @@ import 'package:http/http.dart' as http;
         Map<String, dynamic> dartData = jsonDecode(dataJson);
         return dartData;
       } else {
-        print('Error  >>  ${response.statusCode} ');
+        print('========== Error response code  >>  ${response.statusCode} ');
       }
     } catch (e) {
-      print('Error catch >>  $e ');
+      print('================= Error catch >>  $e ');
     }
   }
 

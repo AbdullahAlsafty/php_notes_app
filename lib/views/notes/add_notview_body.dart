@@ -8,29 +8,21 @@ import 'package:php_notes_app/cor/constants/kBox_hive.dart';
 import 'package:php_notes_app/cor/constants/kapi_services.dart';
 import 'package:php_notes_app/cor/constants/kassets.dart';
 import 'package:php_notes_app/cor/constants/kresponse.dart';
-import 'package:php_notes_app/cor/constants/kroutes.dart';
-import 'package:php_notes_app/cor/functions/edit_hive.dart';
 
-class SigninViewBody extends StatefulWidget {
-  const SigninViewBody({super.key});
+class AddNoteViewBody extends StatefulWidget {
+  const AddNoteViewBody({super.key});
 
   @override
-  State<SigninViewBody> createState() => _SigninViewBodyState();
+  State<AddNoteViewBody> createState() => _AddNoteViewBodyState();
 }
 
-class _SigninViewBodyState extends State<SigninViewBody> {
+class _AddNoteViewBodyState extends State<AddNoteViewBody> {
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
-  final TextEditingController _emaiController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+  final TextEditingController _titlecontroller = TextEditingController();
+  final TextEditingController _subtitlecontroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Form(
-      onChanged: () {
-        autovalidateMode = AutovalidateMode.always;
-        setState(() {});
-      },
-      autovalidateMode: autovalidateMode,
       key: _globalKey,
       child: ListView(padding: EdgeInsets.all(12), children: [
         Column(
@@ -41,18 +33,18 @@ class _SigninViewBodyState extends State<SigninViewBody> {
               fit: BoxFit.fill,
             ),
             CustomTextFormFild(
-              hintText: 'email',
-              textEditingController: _emaiController,
+              hintText: 'title ttttttt',
+              textEditingController: _titlecontroller,
             ),
             CustomTextFormFild(
-              hintText: 'Password',
-              textEditingController: _passwordController,
+              hintText: 'subtitle tttttt',
+              textEditingController: _subtitlecontroller,
             ),
             CustomMaterilButton(
-              'Sign in',
+              'Save',
               onPressed: () async {
                 if (_globalKey.currentState!.validate()) {
-                  await signin();
+                  await addnote();
                 }
               },
             ),
@@ -62,28 +54,30 @@ class _SigninViewBodyState extends State<SigninViewBody> {
     );
   }
 
-  Future<void> signin() async {
+  Future<void> addnote() async {
+    Box hiveBox = Hive.box(kBoxName);
+    hiveBox.clear();
     Map<String, dynamic> response =
-        await ApiServer().postRequest(kurlSignin_PostRequest, {
-      'email': _emaiController.text,
-      'password': _passwordController.text,
+        await ApiServer().postRequest(kurlAddNote_PostRequest, {
+      Kresponse.knoteTitle: _titlecontroller.text,
+      Kresponse.knoteSubtitle: _subtitlecontroller.text,
+      Kresponse.knotuser_id: '66'
     });
     if (response['Status'] == 'Success') {
       CustomSnackBar.successSnackBar(context,
           ' User name  = ${response[Kresponse.kuserData][Kresponse.kuserName]}');
 
-      Map<String, dynamic> hiveUserInfo = response[Kresponse.kuserData];
-            await EditHive.addhiveUserInfo( hiveUserInfo);
-      Navigator.pushNamed(
-        context,
-        kNotesview,
-      );
+      Map<String,dynamic> hivedata = response[Kresponse.kuserData];
+ 
+     
+      print('****************');
+      print(hiveBox.values);
+      print('=======================');
+
+      Navigator.pop(context);
     } else {
       CustomSnackBar.faillureSnackBar(context,
           'statusvv =  ${response[Kresponse.kstatus]} >> and countvv = ${response['Row Coun']}');
     }
   }
-
-  
 }
-

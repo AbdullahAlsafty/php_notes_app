@@ -8,7 +8,7 @@ class CustomMaterilButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 70),
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       color: Colors.blue,
       onPressed: onPressed,

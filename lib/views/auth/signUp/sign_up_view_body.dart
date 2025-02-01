@@ -9,6 +9,7 @@ import 'package:php_notes_app/cor/constants/kapi_services.dart';
 import 'package:php_notes_app/cor/constants/kassets.dart';
 import 'package:php_notes_app/cor/constants/kresponse.dart';
 import 'package:php_notes_app/cor/constants/kroutes.dart';
+import 'package:php_notes_app/cor/functions/edit_hive.dart';
 
 class SignUpViewBody extends StatefulWidget {
   const SignUpViewBody({super.key});
@@ -69,12 +70,8 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
       'password': _passwordController.text,
     });
     if (response[Kresponse.kstatus] == Kresponse.kstatusSucces) {
-      print(' Hive values befor singn up >>>>>  ${Hive.box(kBoxName).values}');
-    await  Hive.box(kBoxName).clear();
-    Map<String ,dynamic> hivedata = {'all user data':response[Kresponse.kuserData]};
-     await Hive.box(kBoxName).putAll(hivedata);
-           print(' Hive values after singn up >>>>>  ${Hive.box(kBoxName).values}');
-
+    Map<String ,dynamic> hiveUserInfo =response[Kresponse.kuserData];
+EditHive.addhiveUserInfo(hiveUserInfo);
      Navigator.of(context).pushReplacementNamed(kSuccessView);
     }else{
       CustomSnackBar.faillureSnackBar(context, 'statusvv =  ${response[Kresponse.kstatus]} >> and countvv = ${response['Row Coun']}');

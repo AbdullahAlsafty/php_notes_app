@@ -13,14 +13,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   var  _hiveBox = Hive.box(kBoxName).get('userInfo');
     return MaterialApp(
       routes: kRoutes,
-      initialRoute: kHomeView,
+      initialRoute:_hiveBox==null||_hiveBox.isEmpty? kHomeView:kNotesview,
     );
   }
 }
 
 Future<void> initHive() async {
+ 
+ 
   await Hive.initFlutter();
   if (!Hive.isBoxOpen(kBoxName)) {
     await Hive.openBox(kBoxName);

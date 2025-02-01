@@ -11,8 +11,14 @@ class NotesViewBody extends StatelessWidget {
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.all(8.0),
-            child: CustomListTile(),
+            child: CustomListTile(title: '', subtitle: '',),
           );
         });
   }
+}
+
+ Future< List<Map<String,dynamic>>> allnotes ()async{
+
+
+List<Map<String ,dynamic>>
 }

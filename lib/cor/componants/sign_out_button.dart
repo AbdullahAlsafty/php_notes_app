@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/adapters.dart';
-import 'package:php_notes_app/cor/constants/kBox_hive.dart';
 import 'package:php_notes_app/cor/constants/kroutes.dart';
 import 'package:php_notes_app/cor/constants/kstyles.dart';
+import 'package:php_notes_app/cor/functions/edit_hive.dart';
 
 class GetSignOutButton extends StatelessWidget {
   const GetSignOutButton({super.key});
@@ -11,8 +10,7 @@ class GetSignOutButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return   InkWell(
               onTap: () {
-                print ('====== Hive values befor sign out >> ${Hive.box(kBoxName).values}');
-                Hive.box(kBoxName).clear();
+              EditHive.clearUserinfo();
                    Navigator.of(context).pushNamed(kHomeView);
 
               },

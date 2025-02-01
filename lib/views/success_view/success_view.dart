@@ -24,10 +24,10 @@ class SuccessView extends StatelessWidget {
           Center(
               child: Text(
            'success sign up ',
-            style: Kstyles.kTextStyle(50),
+            style: Kstyles.kTextStyle(30),
           )),
           CustomMaterilButton('Go to sign in page .>', onPressed: () {
-          Navigator.pushReplacementNamed(context, kSigninView);
+          Navigator.pushNamed(context, kSigninView);
           })
         ],
       ),
