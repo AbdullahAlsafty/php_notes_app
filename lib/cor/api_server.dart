@@ -10,8 +10,12 @@ class ApiServer {
 
       if (response.statusCode == 200) {
         String dataJson = response.body;
-        Map<String, dynamic> dartData = jsonDecode(dataJson);
-        return dartData;
+        if (response.body.startsWith('{') || response.body.startsWith('[')) {
+
+          print ('response start with {');
+          Map<String, dynamic> dartData = jsonDecode(dataJson);
+          return dartData;
+        }
       } else {
         print('========== Error response code  >>  ${response.statusCode} ');
       }

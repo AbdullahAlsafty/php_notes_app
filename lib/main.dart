@@ -4,6 +4,12 @@ import 'package:php_notes_app/cor/constants/khive.dart';
 import 'package:php_notes_app/cor/constants/kroutes.dart';
 
 void main() async {
+
+ 
+  debugPrint = (String? message, {int? wrapWidth}) {}; // تعطيل debugPrint
+  
+
+
   await initHive();
   runApp(MyApp());
 }
@@ -27,6 +33,8 @@ Future<void> initHive() async {
   await Hive.initFlutter();
   if (!Hive.isBoxOpen(kBoxName)) {
     await Hive.openBox(kBoxName);
+   
+
   }
 }
 

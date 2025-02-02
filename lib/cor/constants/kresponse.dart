@@ -10,7 +10,7 @@ class Kresponse {
 ////////////////////////////////////////////////////////
   static const String knoteid = 'id ';
   static const String knoteTitle = 'notes_title';
-  static const String knoteSubtitle = 'notes_suptitle';
+  static const String knoteSubtitle = 'notes_subtitle';
   static const String knotuser_id = 'notes_user_id';
   static const String kallNotes = 'allNotes';
 }

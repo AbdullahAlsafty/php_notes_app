@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:php_notes_app/cor/api_server.dart';
 import 'package:php_notes_app/cor/componants/custom_material_button.dart';
 import 'package:php_notes_app/cor/componants/custom_snack_bar.dart';
 import 'package:php_notes_app/cor/componants/custom_text_form_fild.dart';
 import 'package:php_notes_app/cor/constants/kapi_services.dart';
 import 'package:php_notes_app/cor/constants/kassets.dart';
+import 'package:php_notes_app/cor/constants/khive.dart';
 import 'package:php_notes_app/cor/constants/kresponse.dart';
 import 'package:php_notes_app/cor/constants/kroutes.dart';
 import 'package:php_notes_app/cor/functions/edit_hive.dart';
@@ -67,17 +69,20 @@ class _SigninViewBodyState extends State<SigninViewBody> {
       'email': _emaiController.text,
       'password': _passwordController.text,
     });
-    if (response['Status'] == 'Success') {
+    if (response[Kresponse.kstatus] == Kresponse.kstatusSucces) {
       CustomSnackBar.successSnackBar(context,
           ' User name  = ${response[Kresponse.kuserData][Kresponse.kuserName]}');
 
       Map<String, dynamic> hiveUserInfo = response[Kresponse.kuserData];
-      await EditHive.addhiveUserInfo(hiveUserInfo);
+     Hive.box(kBoxName).put(khiveUserInfo,
+                  hiveUserInfo   );
+                  
+Navigator.pushReplacementNamed(context, kNotesview);
       Navigator.pushNamed(
         context,
         kNotesview,
       );
-    } else if (response['Status'] == Kresponse.kstatusFailure){
+    } else if (response[Kresponse.kstatus] == Kresponse.kstatusFailure){
  CustomSnackBar.faillureSnackBar(context,
           'خطا بالايميل او الباسوورد');
         

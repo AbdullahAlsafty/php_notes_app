@@ -8,6 +8,8 @@ import 'package:php_notes_app/cor/constants/kapi_services.dart';
 import 'package:php_notes_app/cor/constants/kassets.dart';
 import 'package:php_notes_app/cor/constants/khive.dart';
 import 'package:php_notes_app/cor/constants/kresponse.dart';
+import 'package:php_notes_app/cor/constants/kroutes.dart';
+import 'package:php_notes_app/cor/functions/edit_hive.dart';
 
 class AddNoteViewBody extends StatefulWidget {
   const AddNoteViewBody({super.key});
@@ -44,7 +46,20 @@ class _AddNoteViewBodyState extends State<AddNoteViewBody> {
               'Save',
               onPressed: () async {
                 if (_globalKey.currentState!.validate()) {
+              
                   await addnote();
+                
+                 
+
+                   print(
+                      '========== hive values = ${Hive.box(kBoxName).values}==========');
+                  print('================11====');
+
+                  var vv = Hive.box(kBoxName).toMap();
+
+                  print('================2222====');
+                  print(vv);
+                
                 }
               },
             ),
@@ -55,27 +70,45 @@ class _AddNoteViewBodyState extends State<AddNoteViewBody> {
   }
 
   Future<void> addnote() async {
-    
-    khiveBox.clear();
     Map<String, dynamic> response =
         await ApiServer().postRequest(kurlAddNote_PostRequest, {
       Kresponse.knoteTitle: _titlecontroller.text,
-      Kresponse.knoteSubtitle: _subtitlecontroller.text,
-      Kresponse.knotuser_id: '66'
+      'notes_suptitle': _subtitlecontroller.text,
+      Kresponse.knotuser_id: "${Hive.box(kBoxName).get([khiveUserInfo])['id']}"
     });
+    
+
     if (response['Status'] == 'Success') {
-      CustomSnackBar.successSnackBar(context,
-          ' User name  = ${response[Kresponse.kuserData][Kresponse.kuserName]}');
+      CustomSnackBar.successSnackBar(context, ' add don ');
 
-      Map<String,dynamic> hivedata = response[Kresponse.kuserData];
- 
-     
-      
+      Map<String, dynamic> hivedata = response[Kresponse.kuserData];
 
-      Navigator.pop(context);
+       Hive.box(kBoxName).put(khiveNotesInfo,
+                     hivedata);
+                  
+
+      //  await EditHive.addHiveNotesInfo(hivedata);
+
+      Navigator.pushReplacementNamed(context, kNotesview);
+    } else if (response[Kresponse.kstatus] == Kresponse.kstatusFailure) {
+      CustomSnackBar.faillureSnackBar(context, 'خطا بالايميل او الباسوورد');
+    } else if (response[Kresponse.kstatus] == null) {
+      CustomSnackBar.faillureSnackBar(
+          context, '  الخطا المنتظر بسبب الريسبونس غريب انظر الى الكونسول',
+          color: Colors.green);
+      print("******************status = null");
+      print("==response ===${response}");
+
+      print("******************2");
     } else {
-      CustomSnackBar.faillureSnackBar(context,
-          'statusvv =  ${response[Kresponse.kstatus]} >> and countvv = ${response['Row Coun']}');
+      CustomSnackBar.faillureSnackBar(
+          context, '  لا يوجد ريسبونس نهائي انظر الى الكونسول ',
+          color: Colors.yellow);
+
+      print("******************response  = null");
+      print("==response ===${response}");
+
+      print("******************2");
     }
   }
 }

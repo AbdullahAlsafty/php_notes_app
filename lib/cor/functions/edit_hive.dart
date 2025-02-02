@@ -6,9 +6,9 @@ import 'package:php_notes_app/cor/constants/khive.dart';
 abstract class EditHive{
   
   static Future<void> addhiveUserInfo( Map<String, dynamic> hiveUserInfo) async {
-    await Hive.box(kBoxName).delete('userInfo');
+    await Hive.box(kBoxName).delete(khiveUserInfo);
     
-          await Hive.box(kBoxName).put('userInfo', hiveUserInfo);
+          await Hive.box(kBoxName).put(khiveUserInfo, hiveUserInfo);
   }
 
 
@@ -17,11 +17,13 @@ abstract class EditHive{
     
   }
  static Future<void> addHiveNotesInfo(Map<String, dynamic> hiveNotesInfo) async {
-          await Hive.box(kBoxName).put('notesInfo', hiveNotesInfo);
+      await Hive.box(kBoxName).delete(khiveNotesInfo);
+
+          await Hive.box(kBoxName).put(khiveNotesInfo, hiveNotesInfo);
     
   }
    static Future<void> clearNotesinfo() async {
-    await Hive.box(kBoxName).delete('notesInfo');
+    await Hive.box(kBoxName).delete(khiveNotesInfo);
     
   }
 

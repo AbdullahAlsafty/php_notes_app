@@ -7,8 +7,7 @@ import 'package:php_notes_app/cor/constants/kapi_services.dart';
 import 'package:php_notes_app/cor/constants/khive.dart';
 import 'package:php_notes_app/cor/constants/kresponse.dart';
 import 'package:php_notes_app/cor/constants/kstyles.dart';
-import 'package:php_notes_app/model/user_model.dart';
-
+ 
 class NotesViewBody extends StatelessWidget {
   const NotesViewBody({super.key});
 
@@ -44,20 +43,12 @@ Future<List<dynamic>> getallnotes() async {
   await Future.delayed(Duration(seconds: 1));
   Map<String, dynamic> response = await ApiServer()
       .postRequest(kurlViewNote_PostRequest, {Kresponse.knotuser_id: "${Hive.box(kBoxName).get(khiveUserInfo)['id']}"});
-  print('================================1');
-  print('================================2');
-  print("**************  ${response}");
 
-  print('=================================3');
   List<dynamic> allNotes = [];
   if (response[Kresponse.kstatus] == Kresponse.kstatusFailure) {
-    print('///////////////////////1');
-    print('///////////////////////2');
-    print('///////////////////////3');
+    
   } else if (response[Kresponse.kstatus] == Kresponse.kstatusSucces) {
-    print('///////////////////////666');
-    print('///////////////////////77777');
-    print('///////////////////////88888');
+  
     allNotes = response[Kresponse.kallNotes];
   }
 
