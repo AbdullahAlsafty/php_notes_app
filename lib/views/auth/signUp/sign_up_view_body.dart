@@ -4,7 +4,6 @@ import 'package:php_notes_app/cor/api_server.dart';
 import 'package:php_notes_app/cor/componants/custom_material_button.dart';
 import 'package:php_notes_app/cor/componants/custom_snack_bar.dart';
 import 'package:php_notes_app/cor/componants/custom_text_form_fild.dart';
-import 'package:php_notes_app/cor/constants/kBox_hive.dart';
 import 'package:php_notes_app/cor/constants/kapi_services.dart';
 import 'package:php_notes_app/cor/constants/kassets.dart';
 import 'package:php_notes_app/cor/constants/kresponse.dart';
@@ -70,8 +69,8 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
       'password': _passwordController.text,
     });
     if (response[Kresponse.kstatus] == Kresponse.kstatusSucces) {
-    Map<String ,dynamic> hiveUserInfo =response[Kresponse.kuserData];
-EditHive.addhiveUserInfo(hiveUserInfo);
+//     Map<String ,dynamic> hiveUserInfo =response[Kresponse.kuserData];
+// EditHive.addhiveUserInfo(hiveUserInfo);
      Navigator.of(context).pushReplacementNamed(kSuccessView);
     }else{
       CustomSnackBar.faillureSnackBar(context, 'statusvv =  ${response[Kresponse.kstatus]} >> and countvv = ${response['Row Coun']}');

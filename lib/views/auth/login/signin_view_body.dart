@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:php_notes_app/cor/api_server.dart';
 import 'package:php_notes_app/cor/componants/custom_material_button.dart';
 import 'package:php_notes_app/cor/componants/custom_snack_bar.dart';
 import 'package:php_notes_app/cor/componants/custom_text_form_fild.dart';
-import 'package:php_notes_app/cor/constants/kBox_hive.dart';
 import 'package:php_notes_app/cor/constants/kapi_services.dart';
 import 'package:php_notes_app/cor/constants/kassets.dart';
 import 'package:php_notes_app/cor/constants/kresponse.dart';
@@ -51,6 +49,7 @@ class _SigninViewBodyState extends State<SigninViewBody> {
             CustomMaterilButton(
               'Sign in',
               onPressed: () async {
+              
                 if (_globalKey.currentState!.validate()) {
                   await signin();
                 }
@@ -73,17 +72,36 @@ class _SigninViewBodyState extends State<SigninViewBody> {
           ' User name  = ${response[Kresponse.kuserData][Kresponse.kuserName]}');
 
       Map<String, dynamic> hiveUserInfo = response[Kresponse.kuserData];
-            await EditHive.addhiveUserInfo( hiveUserInfo);
+      await EditHive.addhiveUserInfo(hiveUserInfo);
       Navigator.pushNamed(
         context,
         kNotesview,
       );
-    } else {
+    } else if (response['Status'] == Kresponse.kstatusFailure){
+ CustomSnackBar.faillureSnackBar(context,
+          'خطا بالايميل او الباسوورد');
+        
+    }
+    else if (response[Kresponse.kstatus]==null ){
+ CustomSnackBar.faillureSnackBar(context,
+          '  الخطا المنتظر بسبب الريسبونس غريب انظر الى الكونسول' ,color: Colors.green);
+          print ("******************status = null");
+          print ("==response ===${response}");
+
+          print ("******************2");
+
+
+          
+    }
+    
+    else {
       CustomSnackBar.faillureSnackBar(context,
-          'statusvv =  ${response[Kresponse.kstatus]} >> and countvv = ${response['Row Coun']}');
+          '  لا يوجد ريسبونس نهائي انظر الى الكونسول ' ,color:  Colors.yellow);
+
+           print ("******************response  = null");
+          print ("==response ===${response}");
+
+          print ("******************2");
     }
   }
-
-  
 }
-

@@ -4,9 +4,9 @@ import 'package:php_notes_app/cor/api_server.dart';
 import 'package:php_notes_app/cor/componants/custom_material_button.dart';
 import 'package:php_notes_app/cor/componants/custom_snack_bar.dart';
 import 'package:php_notes_app/cor/componants/custom_text_form_fild.dart';
-import 'package:php_notes_app/cor/constants/kBox_hive.dart';
 import 'package:php_notes_app/cor/constants/kapi_services.dart';
 import 'package:php_notes_app/cor/constants/kassets.dart';
+import 'package:php_notes_app/cor/constants/khive.dart';
 import 'package:php_notes_app/cor/constants/kresponse.dart';
 
 class AddNoteViewBody extends StatefulWidget {
@@ -55,8 +55,8 @@ class _AddNoteViewBodyState extends State<AddNoteViewBody> {
   }
 
   Future<void> addnote() async {
-    Box hiveBox = Hive.box(kBoxName);
-    hiveBox.clear();
+    
+    khiveBox.clear();
     Map<String, dynamic> response =
         await ApiServer().postRequest(kurlAddNote_PostRequest, {
       Kresponse.knoteTitle: _titlecontroller.text,
@@ -70,9 +70,7 @@ class _AddNoteViewBodyState extends State<AddNoteViewBody> {
       Map<String,dynamic> hivedata = response[Kresponse.kuserData];
  
      
-      print('****************');
-      print(hiveBox.values);
-      print('=======================');
+      
 
       Navigator.pop(context);
     } else {
