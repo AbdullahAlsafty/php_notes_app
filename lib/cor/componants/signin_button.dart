@@ -7,16 +7,14 @@ class GetSignInButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return   InkWell(
-              onTap: () {
-                   Navigator.of(context).pushNamed(kSigninView);
-
-              },
-              child: Text(
-                'Sign in >>',
-                style: Kstyles.kTextStyle(
-                    22, const Color.fromARGB(255, 136, 182, 220)),
-              ),
-            );
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).pushNamed(kSigninView);
+      },
+      child: Text(
+        'Sign in >>',
+        style: Kstyles.kTextStyle(22, const Color.fromARGB(255, 136, 182, 220)),
+      ),
+    );
   }
 }

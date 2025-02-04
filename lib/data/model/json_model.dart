@@ -1,0 +1,3 @@
+class JsonModel {
+  const JsonModel();
+}

@@ -11,9 +11,7 @@ class SignUpView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          actions: [
-             GetSignInButton()
-          ],
+          actions: [GetSignInButton()],
           title: Text(
             'Singn Up',
             style: Kstyles.kTextStyle(18),

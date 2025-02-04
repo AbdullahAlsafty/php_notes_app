@@ -9,14 +9,13 @@
 // abstract class RemotData{
 
 //  Future<void> updatenot(BuildContext context ,String title,String subtitle ,String notid) async {
-    
 
 //     Map<String, dynamic> response =
 //         await ApiServer().postRequest(kurlupdatNote_PostRequest, {
 //       Kresponse.knoteTitle: title ,
 //       Kresponse.knoteSubtitle: subtitle,
 //       Kresponse.knoteid: notid,
-    
+
 //     });
 //     print ('===================');
 //     print (response);
@@ -27,9 +26,6 @@
 //           ' User name  = ${response[Kresponse.kuserData][Kresponse.kuserName]}');
 
 //       // Map<String,dynamic> hivedata = response[Kresponse.kuserData];
- 
-     
-      
 
 //       Navigator.pushReplacementNamed(context,kNotesview);
 //     } else {

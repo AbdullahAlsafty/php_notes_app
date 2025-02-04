@@ -83,8 +83,7 @@ class _SigninViewBodyState extends State<SigninViewBody> {
           kNotesview,
         );
       } else if (right[Kresponse.kstatus] == Kresponse.kstatusFailure) {
-   
-      CustomSnackBar.faillureSnackBar(context, 'خطا بالايميل او الباسوورد');
+        CustomSnackBar.faillureSnackBar(context, 'خطا بالايميل او الباسوورد');
       } else {
         CustomSnackBar.faillureSnackBar(context, 'ERRRRRRRRRRR',
             color: Colors.yellow);

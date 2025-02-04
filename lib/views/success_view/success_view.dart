@@ -6,9 +6,8 @@ import 'package:php_notes_app/cor/constants/kstyles.dart';
 class SuccessView extends StatelessWidget {
   const SuccessView({
     super.key,
-   
   });
- 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,11 +22,11 @@ class SuccessView extends StatelessWidget {
         children: [
           Center(
               child: Text(
-           'success sign up ',
+            'success sign up ',
             style: Kstyles.kTextStyle(30),
           )),
           CustomMaterilButton('Go to sign in page .>', onPressed: () {
-          Navigator.pushNamed(context, kSigninView);
+            Navigator.pushNamed(context, kSigninView);
           })
         ],
       ),

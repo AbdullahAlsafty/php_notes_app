@@ -4,11 +4,7 @@ import 'package:php_notes_app/cor/constants/khive.dart';
 import 'package:php_notes_app/cor/constants/kroutes.dart';
 
 void main() async {
-
- 
   debugPrint = (String? message, {int? wrapWidth}) {}; // تعطيل debugPrint
-  
-
 
   await initHive();
   runApp(MyApp());
@@ -19,22 +15,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
- var  _hiveBox = Hive.box(kBoxName).get(khiveUserInfo);
+    var _hiveBox = Hive.box(kBoxName).get(khiveUserInfo);
 
     return MaterialApp(
       routes: kRoutes,
-      initialRoute:_hiveBox==null ? kHomeView:kNotesview,
+      initialRoute: _hiveBox == null ? kHomeView : kNotesview,
     );
   }
 }
 
 Future<void> initHive() async {
-
   await Hive.initFlutter();
   if (!Hive.isBoxOpen(kBoxName)) {
     await Hive.openBox(kBoxName);
-   
-
   }
 }
 

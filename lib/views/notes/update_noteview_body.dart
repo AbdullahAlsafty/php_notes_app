@@ -61,7 +61,7 @@ class _UpdateNoteviewBodyState extends State<UpdateNoteviewBody> {
         await ApiServer().postRequest(kurlupdatNote_PostRequest, {
       Kresponse.knoteTitle: _titlecontroller.text,
       Kresponse.knoteSubtitle: _subtitlecontroller.text,
-     'note_id': id,
+      'note_id': id,
     });
 
     response.fold((left) {
@@ -74,7 +74,5 @@ class _UpdateNoteviewBodyState extends State<UpdateNoteviewBody> {
             context, right[Kresponse.kstatusFailure]);
       }
     });
-
-  
   }
 }

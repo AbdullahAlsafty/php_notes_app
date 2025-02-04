@@ -10,7 +10,8 @@ abstract class CustomSnackBar {
     )));
   }
 
-  static faillureSnackBar(BuildContext context, String content ,{Color color = Colors.red}) {
+  static faillureSnackBar(BuildContext context, String content,
+      {Color color = Colors.red}) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(
         content,

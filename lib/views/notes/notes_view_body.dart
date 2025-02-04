@@ -39,36 +39,25 @@ class NotesViewBody extends StatelessWidget {
         });
   }
 
+  Future<List<dynamic>> getallnotes(BuildContext context) async {
+    List<dynamic> allNotes = [];
+    Either<String, Map<String, dynamic>> response = await ApiServer()
+        .postRequest(kurlViewNote_PostRequest, {
+      Kresponse.kuserid: "${Hive.box(kBoxName).get(khiveUserInfo)['id']}"
+    });
 
+    response.fold((left) {
+      CustomSnackBar.faillureSnackBar(context, left);
+    }, (right) {
+      if (right[Kresponse.kstatus] == Kresponse.kstatusSucces) {
+        allNotes = right[Kresponse.kallNotes];
+      } else {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          CustomSnackBar.faillureSnackBar(context, "لا يوجد اي ملاحظات  ");
+        });
+      }
+    });
 
-
-
-
-
-  Future<List<dynamic>> getallnotes(BuildContext context ) async {
-  List<dynamic> allNotes = [];
-  Either<String, Map<String, dynamic>> response = await ApiServer().postRequest(
-      kurlViewNote_PostRequest,
-      {Kresponse.kuserid: "${Hive.box(kBoxName).get(khiveUserInfo)['id']}"});
-
-  response.fold((left) {
-    CustomSnackBar.faillureSnackBar(context, left);
-  }, (right) {
-    if (right[Kresponse.kstatus] == Kresponse.kstatusSucces) {
-
-          allNotes = right[Kresponse.kallNotes];
-
-    } else {
-     WidgetsBinding.instance.addPostFrameCallback((_){
- CustomSnackBar.faillureSnackBar(context, "لا يوجد اي ملاحظات  ");
-     });
-    }
-  });
-
-
-
-   return allNotes;
+    return allNotes;
+  }
 }
-}
-
-

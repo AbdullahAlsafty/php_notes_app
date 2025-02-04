@@ -17,12 +17,12 @@ class HomeViewBody extends StatefulWidget {
 
 class _HomeViewBodyState extends State<HomeViewBody> {
   StreamController streamControllervv = StreamController();
- @override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
-  
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -49,13 +49,10 @@ class _HomeViewBodyState extends State<HomeViewBody> {
           print('======================');
           print(box.toMap());
           print('======================');
-
-        
         }),
         SizedBox(
           height: 55,
         ),
-   
       ],
     );
   }
@@ -64,4 +61,3 @@ class _HomeViewBodyState extends State<HomeViewBody> {
 Future<String> ss2(String mm2) async {
   return (mm2);
 }
-

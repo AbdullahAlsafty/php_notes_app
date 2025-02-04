@@ -11,16 +11,16 @@ const String kSignupView = 'signup';
 const String kSigninView = 'login';
 const String kNotesview = 'notesview';
 const String kSuccessView = 'successView';
-const String kHomeView= 'homeView';
-const String kaddNotesView= 'addNotesview';
-const String kupdatetesView= 'updartenotesview';
+const String kHomeView = 'homeView';
+const String kaddNotesView = 'addNotesview';
+const String kupdatetesView = 'updartenotesview';
 
 Map<String, Widget Function(BuildContext)> kRoutes = {
   kSignupView: (context) => SignUpView(),
   kSigninView: (context) => SigninView(),
   kNotesview: (context) => NotesView(),
-  kSuccessView:(context) => SuccessView(),
-  kHomeView  :(context) => HomeView(),
-  kaddNotesView :(context) => AddNoteView(),
-  kupdatetesView :(context) => UpdateNoteView(),
+  kSuccessView: (context) => SuccessView(),
+  kHomeView: (context) => HomeView(),
+  kaddNotesView: (context) => AddNoteView(),
+  kupdatetesView: (context) => UpdateNoteView(),
 };

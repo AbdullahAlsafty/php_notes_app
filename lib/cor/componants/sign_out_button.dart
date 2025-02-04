@@ -8,17 +8,15 @@ class GetSignOutButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return   InkWell(
-              onTap: () {
-              EditHive.clearUserinfo();
-                   Navigator.of(context).pushNamed(kHomeView);
-
-              },
-              child: Text(
-                'Sign Out >>',
-                style: Kstyles.kTextStyle(
-                    22, const Color.fromARGB(255, 136, 182, 220)),
-              ),
-            );
+    return InkWell(
+      onTap: () {
+        EditHive.clearUserinfo();
+        Navigator.of(context).pushNamed(kHomeView);
+      },
+      child: Text(
+        'Sign Out >>',
+        style: Kstyles.kTextStyle(22, const Color.fromARGB(255, 136, 182, 220)),
+      ),
+    );
   }
 }

@@ -22,7 +22,7 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emaiController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
- final  GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -55,43 +55,37 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                 }
               },
             ),
-         
           ],
         )
       ]),
     );
   }
 
-  Future<void> signUp( ) async {
-Either<String ,Map<String ,dynamic>>  response = await ApiServer()
-        .postRequest(kurlSignUp_PostRequest, {
+  Future<void> signUp() async {
+    Either<String, Map<String, dynamic>> response =
+        await ApiServer().postRequest(kurlSignUp_PostRequest, {
       'email': _emaiController.text,
       'userName': _usernameController.text,
       'password': _passwordController.text,
     });
 
-
-response.fold((left){
-  CustomSnackBar.faillureSnackBar(context, left);
-}, (right){
-  if (right[Kresponse.kstatus] == Kresponse.kstatusSucces) {
-
-     Navigator.of(context).pushReplacementNamed(kSuccessView);
-  }else{
-    CustomSnackBar.faillureSnackBar(context, right[Kresponse.kstatus]);
-  }
-    
-
-  
-});
+    response.fold((left) {
+      CustomSnackBar.faillureSnackBar(context, left);
+    }, (right) {
+      if (right[Kresponse.kstatus] == Kresponse.kstatusSucces) {
+        Navigator.of(context).pushReplacementNamed(kSuccessView);
+      } else {
+        CustomSnackBar.faillureSnackBar(context, right[Kresponse.kstatus]);
+      }
+    });
 
 //     if (response[Kresponse.kstatus] == Kresponse.kstatusSucces) {
 //     Map<String ,dynamic> hiveUserInfo =response[Kresponse.kuserData];
 // EditHive.addhiveUserInfo(hiveUserInfo);
 //      Navigator.of(context).pushReplacementNamed(kSuccessView);
 //     }else{
-   //  CustomSnackBar.faillureSnackBar(context, 'statusvv =  ${response[Kresponse.kstatus]} >> and countvv = ${response['Row Coun']}');
-     
+    //  CustomSnackBar.faillureSnackBar(context, 'statusvv =  ${response[Kresponse.kstatus]} >> and countvv = ${response['Row Coun']}');
+
 //     }
   }
 }

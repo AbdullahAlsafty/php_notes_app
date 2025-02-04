@@ -21,7 +21,6 @@ class NotesView extends StatelessWidget {
             Navigator.pushNamed(context, kaddNotesView);
           }),
       appBar: AppBar(
-      
         actions: [GetSignOutButton()],
         title: Text(
           'Notes',

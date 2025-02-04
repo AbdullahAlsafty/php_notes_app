@@ -10,9 +10,7 @@ class SigninView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          actions: [
-            GetSignUpButton()
-          ],
+          actions: [GetSignUpButton()],
           title: Text(
             'Sign In',
             style: Kstyles.kTextStyle(18),

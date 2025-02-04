@@ -29,9 +29,7 @@ class _CustomListTileState extends State<CustomListTile> {
           subtitle: Text(widget.data[Kresponse.knoteSubtitle]),
           trailing: IconButton(
               onPressed: () async {
-              
                 await deletNote();
-              
               },
               icon: Icon(Icons.delete)),
         ),
@@ -49,14 +47,9 @@ class _CustomListTileState extends State<CustomListTile> {
     }, (right) {
       if (right[Kresponse.kstatus] == Kresponse.kstatusSucces) {
         Navigator.pushReplacementNamed(context, kNotesview);
-
-       
-    
       } else {
-        CustomSnackBar.faillureSnackBar(context,'لم يتم الحذف بنجاح');
+        CustomSnackBar.faillureSnackBar(context, 'لم يتم الحذف بنجاح');
       }
     });
-
-   
   }
 }

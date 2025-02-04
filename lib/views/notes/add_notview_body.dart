@@ -68,10 +68,9 @@ class _AddNoteViewBodyState extends State<AddNoteViewBody> {
       CustomSnackBar.faillureSnackBar(context, left);
     }, (right) {
       if (right[Kresponse.kstatus] == Kresponse.kstatusSucces) {
-      Navigator.pushReplacementNamed(context, kNotesview);
+        Navigator.pushReplacementNamed(context, kNotesview);
       } else {
-        CustomSnackBar.faillureSnackBar(
-            context, right[Kresponse.kstatus]);
+        CustomSnackBar.faillureSnackBar(context, right[Kresponse.kstatus]);
       }
     });
 
@@ -82,7 +81,7 @@ class _AddNoteViewBodyState extends State<AddNoteViewBody> {
 
     //   await Hive.box(kBoxName).put(khiveNotesInfo, hivedata);
 
-      //  await EditHive.addHiveNotesInfo(hivedata);
+    //  await EditHive.addHiveNotesInfo(hivedata);
 
     //   Navigator.pushReplacementNamed(context, kNotesview);
     // } else if (response[Kresponse.kstatus] == Kresponse.kstatusFailure) {
