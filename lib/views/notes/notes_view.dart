@@ -21,20 +21,7 @@ class NotesView extends StatelessWidget {
             Navigator.pushNamed(context, kaddNotesView);
           }),
       appBar: AppBar(
-        leading: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: IconButton(
-              onPressed: ()async {
-                Box box = Hive.box(kBoxName);
-                print('======================');
-                print(box.toMap());
-                print('======================');
-              },
-              icon: Icon(
-                Icons.storage,
-                size: 60,
-              ),
-            )),
+      
         actions: [GetSignOutButton()],
         title: Text(
           'Notes',

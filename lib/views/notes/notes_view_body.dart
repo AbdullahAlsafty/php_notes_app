@@ -8,7 +8,6 @@ import 'package:php_notes_app/cor/componants/custom_snack_bar.dart';
 import 'package:php_notes_app/cor/constants/kapi_services.dart';
 import 'package:php_notes_app/cor/constants/khive.dart';
 import 'package:php_notes_app/cor/constants/kresponse.dart';
-import 'package:php_notes_app/cor/constants/kroutes.dart';
 import 'package:php_notes_app/cor/constants/kstyles.dart';
 
 class NotesViewBody extends StatelessWidget {
@@ -47,9 +46,7 @@ class NotesViewBody extends StatelessWidget {
 
 
   Future<List<dynamic>> getallnotes(BuildContext context ) async {
-  // var userInfo = Hive.box(kBoxName).get(khiveUserInfo)!;
   List<dynamic> allNotes = [];
-  await Future.delayed(Duration(seconds: 1));
   Either<String, Map<String, dynamic>> response = await ApiServer().postRequest(
       kurlViewNote_PostRequest,
       {Kresponse.kuserid: "${Hive.box(kBoxName).get(khiveUserInfo)['id']}"});
@@ -62,14 +59,13 @@ class NotesViewBody extends StatelessWidget {
           allNotes = right[Kresponse.kallNotes];
 
     } else {
-      CustomSnackBar.faillureSnackBar(context, right[Kresponse.kstatus]);
+     WidgetsBinding.instance.addPostFrameCallback((_){
+ CustomSnackBar.faillureSnackBar(context, "لا يوجد اي ملاحظات  ");
+     });
     }
   });
 
-  // if (response[Kresponse.kstatus] == Kresponse.kstatusFailure) {
-  // } else if (response[Kresponse.kstatus] == Kresponse.kstatusSucces) {
-  //   allNotes = response[Kresponse.kallNotes];
-  // }
+
 
    return allNotes;
 }

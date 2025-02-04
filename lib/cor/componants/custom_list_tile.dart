@@ -40,7 +40,6 @@ class _CustomListTileState extends State<CustomListTile> {
   }
 
   Future<void> deletNote() async {
-    //await ApiServer().postRequest("http://192.168.1.8/authontication/notes/deleNotes.php", {"note_id":"92"});
     Either<String, Map<String, dynamic>> response = await ApiServer()
         .postRequest(
             kurldeleteNote_PostRequest, {"note_id": "${widget.data['id']}"});
@@ -49,31 +48,15 @@ class _CustomListTileState extends State<CustomListTile> {
       CustomSnackBar.faillureSnackBar(context, left);
     }, (right) {
       if (right[Kresponse.kstatus] == Kresponse.kstatusSucces) {
-        CustomSnackBar.successSnackBar(context, widget.data[Kresponse.knoteTitle]);
+        Navigator.pushReplacementNamed(context, kNotesview);
 
-        //   Map<String, dynamic> hiveUserInfo = response[Kresponse.kuserData];
-        //  Hive.box(kBoxName).put(khiveUserInfo,
-        //               hiveUserInfo   );
+       
+    
       } else {
-        CustomSnackBar.faillureSnackBar(context, right[Kresponse.kstatus]);
+        CustomSnackBar.faillureSnackBar(context,'لم يتم الحذف بنجاح');
       }
     });
 
-    //if (response[Kresponse.kstatus] == Kresponse.kstatusSucces) {
-
-    //   Map<String, dynamic> hiveUserInfo = response[Kresponse.kuserData];
-    //  Hive.box(kBoxName).put(khiveUserInfo,
-    //               hiveUserInfo   );
-
-    //  } else if (response[Kresponse.kstatus] == Kresponse.kstatusFailure){
-
-    //  }
-    // else if (response[Kresponse.kstatus]==null ){
-
-    //  }
-
-    //  else {
-
-    //  }
+   
   }
 }

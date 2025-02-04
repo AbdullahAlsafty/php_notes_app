@@ -35,7 +35,7 @@ class _UpdateNoteviewBodyState extends State<UpdateNoteviewBody> {
               fit: BoxFit.fill,
             ),
             CustomTextFormFild(
-              hintText: data['title'],
+              hintText: data['notes_title'],
               textEditingController: _titlecontroller,
             ),
             CustomTextFormFild(
@@ -46,7 +46,7 @@ class _UpdateNoteviewBodyState extends State<UpdateNoteviewBody> {
               'Save',
               onPressed: () async {
                 if (_globalKey.currentState!.validate()) {
-                  await updatenot(data['id']);
+                  await updatenot(data['id'].toString());
                 }
               },
             ),
@@ -61,7 +61,7 @@ class _UpdateNoteviewBodyState extends State<UpdateNoteviewBody> {
         await ApiServer().postRequest(kurlupdatNote_PostRequest, {
       Kresponse.knoteTitle: _titlecontroller.text,
       Kresponse.knoteSubtitle: _subtitlecontroller.text,
-      Kresponse.knoteid: id,
+     'note_id': id,
     });
 
     response.fold((left) {
