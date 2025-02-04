@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart' hide State;
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:php_notes_app/cor/api_server.dart';
@@ -51,7 +52,6 @@ class _SigninViewBodyState extends State<SigninViewBody> {
             CustomMaterilButton(
               'Sign in',
               onPressed: () async {
-              
                 if (_globalKey.currentState!.validate()) {
                   await signin();
                 }
@@ -64,49 +64,70 @@ class _SigninViewBodyState extends State<SigninViewBody> {
   }
 
   Future<void> signin() async {
-    Map<String, dynamic> response =
+    Either<String, Map<String, dynamic>> response =
         await ApiServer().postRequest(kurlSignin_PostRequest, {
       'email': _emaiController.text,
       'password': _passwordController.text,
     });
-    if (response[Kresponse.kstatus] == Kresponse.kstatusSucces) {
-      CustomSnackBar.successSnackBar(context,
-          ' User name  = ${response[Kresponse.kuserData][Kresponse.kuserName]}');
 
-      Map<String, dynamic> hiveUserInfo = response[Kresponse.kuserData];
-     Hive.box(kBoxName).put(khiveUserInfo,
-                  hiveUserInfo   );
-                  
-Navigator.pushReplacementNamed(context, kNotesview);
-      Navigator.pushNamed(
-        context,
-        kNotesview,
-      );
-    } else if (response[Kresponse.kstatus] == Kresponse.kstatusFailure){
- CustomSnackBar.faillureSnackBar(context,
-          'خطا بالايميل او الباسوورد');
+    response.fold((left) {
+      CustomSnackBar.faillureSnackBar(context, left);
+    }, (right) {
+      if (right[Kresponse.kstatus] == Kresponse.kstatusSucces) {
+        Map<String, dynamic> hiveUserInfo = right[Kresponse.kuserData];
+        Hive.box(kBoxName).put(khiveUserInfo, hiveUserInfo);
+
+        Navigator.pushReplacementNamed(context, kNotesview);
+        Navigator.pushNamed(
+          context,
+          kNotesview,
+        );
+      } else if (right[Kresponse.kstatus] == Kresponse.kstatusFailure) {
         
-    }
-    else if (response[Kresponse.kstatus]==null ){
- CustomSnackBar.faillureSnackBar(context,
-          '  الخطا المنتظر بسبب الريسبونس غريب انظر الى الكونسول' ,color: Colors.green);
-          print ("******************status = null");
-          print ("==response ===${response}");
 
-          print ("******************2");
+         CustomSnackBar.faillureSnackBar(context, 'خطا بالايميل او الباسوورد');
+      } else {
+        CustomSnackBar.faillureSnackBar(context, 'ERRRRRRRRRRR',
+            color: Colors.yellow);
+      }
+    });
 
+//     if (response[Kresponse.kstatus] == Kresponse.kstatusSucces) {
+//       CustomSnackBar.successSnackBar(context,
+//           ' User name  = ${response[Kresponse.kuserData][Kresponse.kuserName]}');
 
-          
-    }
-    
-    else {
-      CustomSnackBar.faillureSnackBar(context,
-          '  لا يوجد ريسبونس نهائي انظر الى الكونسول ' ,color:  Colors.yellow);
+//       Map<String, dynamic> hiveUserInfo = response[Kresponse.kuserData];
+//      Hive.box(kBoxName).put(khiveUserInfo,
+//                   hiveUserInfo   );
 
-           print ("******************response  = null");
-          print ("==response ===${response}");
+// Navigator.pushReplacementNamed(context, kNotesview);
+//       Navigator.pushNamed(
+//         context,
+//         kNotesview,
+//       );
+//     } else if (response[Kresponse.kstatus] == Kresponse.kstatusFailure){
+//  CustomSnackBar.faillureSnackBar(context,
+//           'خطا بالايميل او الباسوورد');
 
-          print ("******************2");
-    }
+//     }
+//     else if (response[Kresponse.kstatus]==null ){
+//  CustomSnackBar.faillureSnackBar(context,
+//           '  الخطا المنتظر بسبب الريسبونس غريب انظر الى الكونسول' ,color: Colors.green);
+//           print ("******************status = null");
+//           print ("==response ===${response}");
+
+//           print ("******************2");
+
+//     }
+
+//     else {
+//       CustomSnackBar.faillureSnackBar(context,
+//           '  لا يوجد ريسبونس نهائي انظر الى الكونسول ' ,color:  Colors.yellow);
+
+//            print ("******************response  = null");
+//           print ("==response ===${response}");
+
+//           print ("******************2");
+//     }
   }
 }

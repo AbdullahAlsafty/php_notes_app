@@ -5,18 +5,18 @@ class NotesModel {
   final String noteId;
   final String notesTitle;
   final String notes_subtitle;
-  final String note_user_id;
+  final String userid;
 
   const NotesModel(
       {required this.noteId,
       required this.notesTitle,
       required this.notes_subtitle,
-      required this.note_user_id});
+      required this.userid});
   factory NotesModel.fromHive(Map<String,dynamic> hiveNotesInfo) {
     Map<String, dynamic> baseHiveMap = hiveNotesInfo;
     return NotesModel(
         noteId: baseHiveMap['id'],
-        note_user_id: baseHiveMap[Kresponse.knotuser_id],
+        userid: baseHiveMap[Kresponse.kuserid],
         notesTitle: baseHiveMap[Kresponse.knoteTitle],
         notes_subtitle: baseHiveMap[Kresponse.knoteSubtitle],
         );
@@ -29,7 +29,7 @@ class NotesModel {
 
 
       noteId: basejsonMap['id'],
-        note_user_id: basejsonMap[Kresponse.knotuser_id],
+        userid: basejsonMap[Kresponse.kuserid],
         notesTitle: basejsonMap[Kresponse.knoteTitle],
         notes_subtitle: basejsonMap[Kresponse.knoteSubtitle], 
 

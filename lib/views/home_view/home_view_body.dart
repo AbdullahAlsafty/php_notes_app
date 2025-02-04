@@ -1,17 +1,28 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:php_notes_app/cor/api_server.dart';
 import 'package:php_notes_app/cor/componants/custom_material_button.dart';
-import 'package:php_notes_app/cor/constants/kapi_services.dart';
 import 'package:php_notes_app/cor/constants/khive.dart';
-import 'package:php_notes_app/cor/constants/kresponse.dart';
 import 'package:php_notes_app/cor/constants/kroutes.dart';
 
-class HomeViewBody extends StatelessWidget {
+class HomeViewBody extends StatefulWidget {
   const HomeViewBody({
     super.key,
   });
 
+  @override
+  State<HomeViewBody> createState() => _HomeViewBodyState();
+}
+
+class _HomeViewBodyState extends State<HomeViewBody> {
+  StreamController streamControllervv = StreamController();
+ @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -22,10 +33,7 @@ class HomeViewBody extends StatelessWidget {
           children: [
             Expanded(
               child: CustomMaterilButton('Sign In', onPressed: () async {
-              
-            
-        
-               Navigator.pushNamed(context, kSigninView);
+                Navigator.pushNamed(context, kSigninView);
               }),
             ),
             SizedBox(width: 12),
@@ -36,15 +44,24 @@ class HomeViewBody extends StatelessWidget {
             )
           ],
         ),
+        CustomMaterilButton("hive", onPressed: () async {
+          Box box = Hive.box(kBoxName);
+          print('======================');
+          print(box.toMap());
+          print('======================');
 
-        CustomMaterilButton("hive", onPressed: (){
-          print ("=======2");
-          var v = Hive.box(kBoxName).toMap();
-          print (v);
-                    print ("=======2");
-
-        })
+        
+        }),
+        SizedBox(
+          height: 55,
+        ),
+   
       ],
     );
   }
 }
+
+Future<String> ss2(String mm2) async {
+  return (mm2);
+}
+

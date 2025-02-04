@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart' hide State;
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:php_notes_app/cor/api_server.dart';
@@ -61,20 +62,36 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
     );
   }
 
-  Future<void> signUp() async {
-    Map<String, dynamic> response = await ApiServer()
+  Future<void> signUp( ) async {
+Either<String ,Map<String ,dynamic>>  response = await ApiServer()
         .postRequest(kurlSignUp_PostRequest, {
       'email': _emaiController.text,
       'userName': _usernameController.text,
       'password': _passwordController.text,
     });
-    if (response[Kresponse.kstatus] == Kresponse.kstatusSucces) {
+
+
+response.fold((left){
+  CustomSnackBar.faillureSnackBar(context, left);
+}, (right){
+  if (right[Kresponse.kstatus] == Kresponse.kstatusSucces) {
+
+     Navigator.of(context).pushReplacementNamed(kSuccessView);
+  }else{
+    CustomSnackBar.faillureSnackBar(context, right[Kresponse.kstatus]);
+  }
+    
+
+  
+});
+
+//     if (response[Kresponse.kstatus] == Kresponse.kstatusSucces) {
 //     Map<String ,dynamic> hiveUserInfo =response[Kresponse.kuserData];
 // EditHive.addhiveUserInfo(hiveUserInfo);
-     Navigator.of(context).pushReplacementNamed(kSuccessView);
-    }else{
-      CustomSnackBar.faillureSnackBar(context, 'statusvv =  ${response[Kresponse.kstatus]} >> and countvv = ${response['Row Coun']}');
+//      Navigator.of(context).pushReplacementNamed(kSuccessView);
+//     }else{
+   //  CustomSnackBar.faillureSnackBar(context, 'statusvv =  ${response[Kresponse.kstatus]} >> and countvv = ${response['Row Coun']}');
      
-    }
+//     }
   }
 }

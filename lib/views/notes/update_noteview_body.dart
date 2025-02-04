@@ -1,5 +1,5 @@
+import 'package:dartz/dartz.dart' hide State;
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:php_notes_app/cor/api_server.dart';
 import 'package:php_notes_app/cor/componants/custom_material_button.dart';
 import 'package:php_notes_app/cor/componants/custom_snack_bar.dart';
@@ -22,6 +22,8 @@ class _UpdateNoteviewBodyState extends State<UpdateNoteviewBody> {
   final TextEditingController _subtitlecontroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> data =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     return Form(
       key: _globalKey,
       child: ListView(padding: EdgeInsets.all(12), children: [
@@ -33,18 +35,18 @@ class _UpdateNoteviewBodyState extends State<UpdateNoteviewBody> {
               fit: BoxFit.fill,
             ),
             CustomTextFormFild(
-              hintText: 'title ttttttt',
+              hintText: data['title'],
               textEditingController: _titlecontroller,
             ),
             CustomTextFormFild(
-              hintText: 'subtitle tttttt',
+              hintText: data[Kresponse.knoteSubtitle],
               textEditingController: _subtitlecontroller,
             ),
             CustomMaterilButton(
               'Save',
               onPressed: () async {
                 if (_globalKey.currentState!.validate()) {
-                  await addnote();
+                  await updatenot(data['id']);
                 }
               },
             ),
@@ -54,28 +56,25 @@ class _UpdateNoteviewBodyState extends State<UpdateNoteviewBody> {
     );
   }
 
-  Future<void> addnote() async {
-    
-
-    Map<String, dynamic> response =
-        await ApiServer().postRequest(kurlAddNote_PostRequest, {
+  Future<void> updatenot(String id) async {
+    Either<String, Map<String, dynamic>> response =
+        await ApiServer().postRequest(kurlupdatNote_PostRequest, {
       Kresponse.knoteTitle: _titlecontroller.text,
       Kresponse.knoteSubtitle: _subtitlecontroller.text,
-      Kresponse.knotuser_id: '66'
+      Kresponse.knoteid: id,
     });
-    if (response['Status'] == 'Success') {
-      CustomSnackBar.successSnackBar(context,
-          ' User name  = ${response[Kresponse.kuserData][Kresponse.kuserName]}');
 
-      // Map<String,dynamic> hivedata = response[Kresponse.kuserData];
- 
-     
-      
+    response.fold((left) {
+      CustomSnackBar.faillureSnackBar(context, left);
+    }, (right) {
+      if (right[Kresponse.kstatus] == Kresponse.kstatusSucces) {
+        Navigator.pushReplacementNamed(context, kNotesview);
+      } else {
+        CustomSnackBar.faillureSnackBar(
+            context, right[Kresponse.kstatusFailure]);
+      }
+    });
 
-      Navigator.pushReplacementNamed(context,kNotesview);
-    } else {
-      CustomSnackBar.faillureSnackBar(context,
-          'statusvv =  ${response[Kresponse.kstatus]} >> and countvv = ${response['Row Coun']}');
-    }
+  
   }
 }

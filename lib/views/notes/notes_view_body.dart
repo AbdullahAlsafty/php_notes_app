@@ -1,20 +1,23 @@
+import 'package:dartz/dartz.dart' hide State;
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:php_notes_app/cor/api_server.dart';
 import 'package:php_notes_app/cor/componants/custom_cirecullar_progressindicator.dart';
 import 'package:php_notes_app/cor/componants/custom_list_tile.dart';
+import 'package:php_notes_app/cor/componants/custom_snack_bar.dart';
 import 'package:php_notes_app/cor/constants/kapi_services.dart';
 import 'package:php_notes_app/cor/constants/khive.dart';
 import 'package:php_notes_app/cor/constants/kresponse.dart';
+import 'package:php_notes_app/cor/constants/kroutes.dart';
 import 'package:php_notes_app/cor/constants/kstyles.dart';
- 
+
 class NotesViewBody extends StatelessWidget {
   const NotesViewBody({super.key});
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: getallnotes(),
+        future: getallnotes(context),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return snapshot.data!.isEmpty
@@ -36,21 +39,40 @@ class NotesViewBody extends StatelessWidget {
           }
         });
   }
-}
 
-Future<List<dynamic>> getallnotes() async {
-  var userInfo = Hive.box(kBoxName).get(khiveUserInfo)!;
-  await Future.delayed(Duration(seconds: 1));
-  Map<String, dynamic> response = await ApiServer()
-      .postRequest(kurlViewNote_PostRequest, {Kresponse.knotuser_id: "${Hive.box(kBoxName).get(khiveUserInfo)['id']}"});
 
+
+
+
+
+
+  Future<List<dynamic>> getallnotes(BuildContext context ) async {
+  // var userInfo = Hive.box(kBoxName).get(khiveUserInfo)!;
   List<dynamic> allNotes = [];
-  if (response[Kresponse.kstatus] == Kresponse.kstatusFailure) {
-    
-  } else if (response[Kresponse.kstatus] == Kresponse.kstatusSucces) {
-  
-    allNotes = response[Kresponse.kallNotes];
-  }
+  await Future.delayed(Duration(seconds: 1));
+  Either<String, Map<String, dynamic>> response = await ApiServer().postRequest(
+      kurlViewNote_PostRequest,
+      {Kresponse.kuserid: "${Hive.box(kBoxName).get(khiveUserInfo)['id']}"});
 
-  return allNotes;
+  response.fold((left) {
+    CustomSnackBar.faillureSnackBar(context, left);
+  }, (right) {
+    if (right[Kresponse.kstatus] == Kresponse.kstatusSucces) {
+
+          allNotes = right[Kresponse.kallNotes];
+
+    } else {
+      CustomSnackBar.faillureSnackBar(context, right[Kresponse.kstatus]);
+    }
+  });
+
+  // if (response[Kresponse.kstatus] == Kresponse.kstatusFailure) {
+  // } else if (response[Kresponse.kstatus] == Kresponse.kstatusSucces) {
+  //   allNotes = response[Kresponse.kallNotes];
+  // }
+
+   return allNotes;
 }
+}
+
+
