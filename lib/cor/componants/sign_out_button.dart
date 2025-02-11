@@ -11,7 +11,7 @@ class GetSignOutButton extends StatelessWidget {
     return InkWell(
       onTap: () {
         EditHive.clearUserinfo();
-        Navigator.of(context).pushNamed(kHomeView);
+        Navigator.of(context).pushNamedAndRemoveUntil(kHomeView , (route) => false);  
       },
       child: Text(
         'Sign Out >>',

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart' hide State;
 import 'package:flutter/material.dart';
 import 'package:php_notes_app/cor/api_server.dart';
@@ -6,6 +8,7 @@ import 'package:php_notes_app/cor/constants/kapi_services.dart';
 import 'package:php_notes_app/cor/constants/kassets.dart';
 import 'package:php_notes_app/cor/constants/kresponse.dart';
 import 'package:php_notes_app/cor/constants/kroutes.dart';
+import 'package:php_notes_app/cor/constants/kstyles.dart';
 
 class CustomListTile extends StatefulWidget {
   const CustomListTile({super.key, required this.data});
@@ -19,36 +22,67 @@ class _CustomListTileState extends State<CustomListTile> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushReplacementNamed(context, kupdatetesView,
-            arguments: widget.data);
+        print('4444');
+        Navigator.pushNamed(context, kupdatetesView, arguments: widget.data);
       },
-      child: Card(
-        child: ListTile(
-          leading: Image.asset(Kassets.kLogo),
-          title: Text(widget.data[Kresponse.knoteTitle]),
-          subtitle: Text(widget.data[Kresponse.knoteSubtitle]),
-          trailing: IconButton(
-              onPressed: () async {
-                await deletNote();
-              },
-              icon: Icon(Icons.delete)),
-        ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            backgroundColor: Colors.grey.shade200,
+            radius: 50,
+            child: ClipOval(
+              child: Image.network(
+                "$kurlImageRout${widget.data["notes_image"]}",
+                fit: BoxFit.cover,
+                width: 100,
+                height: 100,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Card(
+              child: ListTile(
+                title: Text(widget.data[Kresponse.knoteTitle]),
+                subtitle: Text(widget.data[Kresponse.knoteSubtitle]),
+                trailing: IconButton(
+                    onPressed: () async {
+                      await deletNote();
+                    },
+                    icon: Icon(Icons.delete)),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Future<void> deletNote() async {
-    Either<String, Map<String, dynamic>> response = await ApiServer()
-        .postRequest(
-            kurldeleteNote_PostRequest, {"note_id": "${widget.data['id']}"});
+    String deletLink = kurldeleteNote_PostRequest;
+
+    Either<String, Map<String, dynamic>> response =
+        await ApiServer().postRequest(deletLink, {
+      "note_id": "${widget.data['id']}",
+      "imagename": widget.data["notes_image"],
+    });
 
     response.fold((left) {
-      CustomSnackBar.faillureSnackBar(context, left);
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                content: Text(left),
+                title: Text('error '),
+              ));
     }, (right) {
-      if (right[Kresponse.kstatus] == Kresponse.kstatusSucces) {
+      if (right['Status'] == 'Success delet note') {
         Navigator.pushReplacementNamed(context, kNotesview);
       } else {
-        CustomSnackBar.faillureSnackBar(context, 'لم يتم الحذف بنجاح');
+        showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  content: Text(right['Status']),
+                  title: Text('error  '),
+                ));
       }
     });
   }

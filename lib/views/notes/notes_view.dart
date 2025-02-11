@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:php_notes_app/cor/api_server.dart';
 import 'package:php_notes_app/cor/componants/custom_material_button.dart';
 import 'package:php_notes_app/cor/componants/sign_out_button.dart';
 import 'package:php_notes_app/cor/constants/khive.dart';
@@ -22,10 +23,11 @@ class NotesView extends StatelessWidget {
           }),
       appBar: AppBar(
         actions: [GetSignOutButton()],
-        title: Text(
-          'Notes',
-          style: Kstyles.kTextStyle(22),
-        ),
+        title:  Text(
+            'Notes',
+            style: Kstyles.kTextStyle(22),
+          ),
+     
       ),
       body: NotesViewBody(),
     );

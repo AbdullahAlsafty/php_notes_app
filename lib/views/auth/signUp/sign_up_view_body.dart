@@ -70,22 +70,15 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
     });
 
     response.fold((left) {
-      CustomSnackBar.faillureSnackBar(context, left);
+      showDialog(context: context, builder: (context) => AlertDialog(content: Text(left),title: Text('error '),));
     }, (right) {
       if (right[Kresponse.kstatus] == Kresponse.kstatusSucces) {
-        Navigator.of(context).pushReplacementNamed(kSuccessView);
+        Navigator.of(context).pushNamedAndRemoveUntil(kSuccessView, (route) => false);
       } else {
         CustomSnackBar.faillureSnackBar(context, right[Kresponse.kstatus]);
       }
     });
 
-//     if (response[Kresponse.kstatus] == Kresponse.kstatusSucces) {
-//     Map<String ,dynamic> hiveUserInfo =response[Kresponse.kuserData];
-// EditHive.addhiveUserInfo(hiveUserInfo);
-//      Navigator.of(context).pushReplacementNamed(kSuccessView);
-//     }else{
-    //  CustomSnackBar.faillureSnackBar(context, 'statusvv =  ${response[Kresponse.kstatus]} >> and countvv = ${response['Row Coun']}');
 
-//     }
   }
 }

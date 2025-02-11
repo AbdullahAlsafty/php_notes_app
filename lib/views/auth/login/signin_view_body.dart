@@ -10,7 +10,6 @@ import 'package:php_notes_app/cor/constants/kassets.dart';
 import 'package:php_notes_app/cor/constants/khive.dart';
 import 'package:php_notes_app/cor/constants/kresponse.dart';
 import 'package:php_notes_app/cor/constants/kroutes.dart';
-import 'package:php_notes_app/cor/functions/edit_hive.dart';
 
 class SigninViewBody extends StatefulWidget {
   const SigninViewBody({super.key});
@@ -78,54 +77,23 @@ class _SigninViewBodyState extends State<SigninViewBody> {
         Hive.box(kBoxName).put(khiveUserInfo, hiveUserInfo);
 
         Navigator.pushReplacementNamed(context, kNotesview);
-        Navigator.pushNamed(
+        Navigator.pushNamedAndRemoveUntil(
           context,
           kNotesview,
+          (route) => false,
         );
       } else if (right[Kresponse.kstatus] == Kresponse.kstatusFailure) {
-        CustomSnackBar.faillureSnackBar(context, 'خطا بالايميل او الباسوورد');
+        showDialog(context: context, builder: (context) => AlertDialog(
+          content : Text('خطا بالايميل او الباسوورد') ,
+          title : Text(' error '),
+          
+        ));
       } else {
         CustomSnackBar.faillureSnackBar(context, 'ERRRRRRRRRRR',
             color: Colors.yellow);
       }
     });
 
-//     if (response[Kresponse.kstatus] == Kresponse.kstatusSucces) {
-//       CustomSnackBar.successSnackBar(context,
-//           ' User name  = ${response[Kresponse.kuserData][Kresponse.kuserName]}');
 
-//       Map<String, dynamic> hiveUserInfo = response[Kresponse.kuserData];
-//      Hive.box(kBoxName).put(khiveUserInfo,
-//                   hiveUserInfo   );
-
-// Navigator.pushReplacementNamed(context, kNotesview);
-//       Navigator.pushNamed(
-//         context,
-//         kNotesview,
-//       );
-//     } else if (response[Kresponse.kstatus] == Kresponse.kstatusFailure){
-//  CustomSnackBar.faillureSnackBar(context,
-//           'خطا بالايميل او الباسوورد');
-
-//     }
-//     else if (response[Kresponse.kstatus]==null ){
-//  CustomSnackBar.faillureSnackBar(context,
-//           '  الخطا المنتظر بسبب الريسبونس غريب انظر الى الكونسول' ,color: Colors.green);
-//           print ("******************status = null");
-//           print ("==response ===${response}");
-
-//           print ("******************2");
-
-//     }
-
-//     else {
-//       CustomSnackBar.faillureSnackBar(context,
-//           '  لا يوجد ريسبونس نهائي انظر الى الكونسول ' ,color:  Colors.yellow);
-
-//            print ("******************response  = null");
-//           print ("==response ===${response}");
-
-//           print ("******************2");
-//     }
   }
 }

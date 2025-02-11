@@ -1,9 +1,19 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 
+import 'package:dartz/dartz_unsafe.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as p;
+import 'package:php_notes_app/cor/api_server.dart';
 import 'package:php_notes_app/cor/componants/custom_material_button.dart';
+import 'package:php_notes_app/cor/constants/kapi_services.dart';
+import 'package:php_notes_app/cor/constants/kassets.dart';
 import 'package:php_notes_app/cor/constants/khive.dart';
+import 'package:php_notes_app/cor/constants/kresponse.dart';
 import 'package:php_notes_app/cor/constants/kroutes.dart';
 
 class HomeViewBody extends StatefulWidget {
@@ -45,10 +55,6 @@ class _HomeViewBodyState extends State<HomeViewBody> {
           ],
         ),
         CustomMaterilButton("hive", onPressed: () async {
-          Box box = Hive.box(kBoxName);
-          print('======================');
-          print(box.toMap());
-          print('======================');
         }),
         SizedBox(
           height: 55,
@@ -58,6 +64,3 @@ class _HomeViewBodyState extends State<HomeViewBody> {
   }
 }
 
-Future<String> ss2(String mm2) async {
-  return (mm2);
-}

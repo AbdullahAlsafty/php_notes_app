@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart' hide State;
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:php_notes_app/cor/api_server.dart';
 import 'package:php_notes_app/cor/componants/custom_material_button.dart';
 import 'package:php_notes_app/cor/componants/custom_snack_bar.dart';
@@ -24,6 +27,8 @@ class _UpdateNoteviewBodyState extends State<UpdateNoteviewBody> {
   Widget build(BuildContext context) {
     Map<String, dynamic> data =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    File? file;
+
     return Form(
       key: _globalKey,
       child: ListView(padding: EdgeInsets.all(12), children: [
@@ -43,10 +48,24 @@ class _UpdateNoteviewBodyState extends State<UpdateNoteviewBody> {
               textEditingController: _subtitlecontroller,
             ),
             CustomMaterilButton(
+              'chose image ',
+              onPressed: () async {
+                ImagePicker imagePicker = ImagePicker();
+
+                XFile? b =
+                    await imagePicker.pickImage(source: ImageSource.gallery);
+                if (b == null) {
+                  CustomSnackBar.faillureSnackBar(context, 'no image Selected');
+                  return;
+                }
+                file = File(b.path);
+              },
+            ),
+            CustomMaterilButton(
               'Save',
               onPressed: () async {
                 if (_globalKey.currentState!.validate()) {
-                  await updatenot(data['id'].toString());
+                  await updatenot(data['id'].toString(), file, data);
                 }
               },
             ),
@@ -56,18 +75,35 @@ class _UpdateNoteviewBodyState extends State<UpdateNoteviewBody> {
     );
   }
 
-  Future<void> updatenot(String id) async {
-    Either<String, Map<String, dynamic>> response =
-        await ApiServer().postRequest(kurlupdatNote_PostRequest, {
+  Future<void> updatenot(String id, File? file, data) async {
+
+    String kk = 'http://192.168.1.11/authontication/notes/tt.php/';
+    Either<String, Map<String, dynamic>> response;
+    Map<String, String> body = {
       Kresponse.knoteTitle: _titlecontroller.text,
       Kresponse.knoteSubtitle: _subtitlecontroller.text,
       'note_id': id,
-    });
+      'oldImageName': '${data['notes_image']}',
+    };
+    if (file == null) {
+      print('==========2222222==============');
+
+      response = await ApiServer().postRequest('http://192.168.1.11/authontication/notes/tt.php/', body);
+    } else {
+      print('==========3333333==============');
+
+      response = await ApiServer().multiPartRequest(
+        uri: kk,
+        data: body,
+        file: file,
+        nameFiledFile: 'newImageFile',
+      );
+    }
 
     response.fold((left) {
       CustomSnackBar.faillureSnackBar(context, left);
     }, (right) {
-      if (right[Kresponse.kstatus] == Kresponse.kstatusSucces) {
+      if (right[Kresponse.kstatus] == 'Success') {
         Navigator.pushReplacementNamed(context, kNotesview);
       } else {
         CustomSnackBar.faillureSnackBar(
